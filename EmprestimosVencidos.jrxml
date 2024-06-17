@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmprestimosVencidos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="458c6ffe-cf20-47bf-85b2-40faae09ecb0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Biblioteca"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    u.nome AS nome_cliente, 
+    l.titulo AS nome_livro, 
+    e.data_emprestimo, 
+    e.data_vencimento,
+    DATEDIFF(CURRENT_DATE(), e.data_vencimento) AS dias_vencidos
+FROM 
+    biblioteca.emprestimos e
+INNER JOIN 
+    biblioteca.usuarios u ON e.usuario_id = u.id
+INNER JOIN 
+    biblioteca.livros l ON e.livro_id = l.id
+WHERE 
+    e.data_devolucao IS NULL
+    AND e.data_vencimento < CURRENT_DATE()]]>
+	</queryString>
+	<field name="nome_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
+	</field>
+	<field name="nome_livro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="titulo"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome_livro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="livros"/>
+	</field>
+	<field name="data_emprestimo" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="data_emprestimo"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_emprestimo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emprestimos"/>
+	</field>
+	<field name="data_vencimento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="data_vencimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_vencimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emprestimos"/>
+	</field>
+	<field name="dias_vencidos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="dias_vencidos"/>
+		<property name="com.jaspersoft.studio.field.label" value="dias_vencidos"/>
+	</field>
+	<group name="nome_cliente">
+		<groupExpression><![CDATA[$F{nome_cliente}]]></groupExpression>
+	</group>
+	<group name="nome_livro">
+		<groupExpression><![CDATA[$F{nome_livro}]]></groupExpression>
+	</group>
+	<group name="data_emprestimo">
+		<groupExpression><![CDATA[$F{data_emprestimo}]]></groupExpression>
+	</group>
+	<group name="data_vencimento">
+		<groupExpression><![CDATA[$F{data_vencimento}]]></groupExpression>
+	</group>
+	<group name="dias_vencidos">
+		<groupExpression><![CDATA[$F{dias_vencidos}]]></groupExpression>
+	</group>
+	<group name="GroupCliente" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{nome_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="42"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="23" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="150" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="100" width="580" height="43" uuid="add353d4-06ad-4c20-b36b-21adb84bc554"/>
+				<textFieldExpression><![CDATA["O cliente: " + $F{nome_cliente} + " " + "fez o emprestimo do livro: " + $F{nome_livro} +" " +" na data:" + " " + $F{data_emprestimo} + " " +"com vencimento em:"+" "+ $F{data_vencimento} + ". " + "Portanto o mesmo está com " +$F{dias_vencidos} + " dias de atraso"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-20" y="1" width="595" height="79" uuid="45b93aa3-882b-431e-89e9-9f841e35e886"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Algerian" size="22"/>
+				</textElement>
+				<text><![CDATA[Relatorio de Emprestimos Atrasados]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="39" splitType="Prevent"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

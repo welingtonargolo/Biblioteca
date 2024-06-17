@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmprestimosAtivos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bbc0722-5e0c-4eec-a45d-2059fe1857b3">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Biblioteca"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT u.nome AS nome_cliente, l.titulo AS nome_livro, 
+            e.data_emprestimo, e.data_vencimento
+            FROM biblioteca.emprestimos e
+            INNER JOIN biblioteca.usuarios u ON e.usuario_id = u.id
+            INNER JOIN biblioteca.livros l ON e.livro_id = l.id
+            WHERE e.data_devolucao IS NULL
+            AND e.data_vencimento >= CURRENT_DATE()]]>
+	</queryString>
+	<field name="nome_cliente" class="java.lang.String"/>
+	<field name="nome_livro" class="java.lang.String"/>
+	<field name="data_emprestimo" class="java.sql.Date"/>
+	<field name="data_vencimento" class="java.sql.Date"/>
+	<group name="GroupCliente" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{nome_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="16"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="50" uuid="501a5a70-d7a9-47d8-a3e2-79e5abf15cd2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Algerian" size="24"/>
+				</textElement>
+				<text><![CDATA[Relatório de Empréstimos Ativos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="20" uuid="1a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="140" height="20" uuid="9e9b9e6f-22a2-4f9b-91ad-c17236d0d7ef"/>
+				<text><![CDATA[Livro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="0" width="140" height="20" uuid="1a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<text><![CDATA[Data de Empréstimo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="140" height="20" uuid="1a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<text><![CDATA[Data de Vencimento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<textField>
+				<reportElement x="0" y="0" width="140" height="20" uuid="2a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<textFieldExpression><![CDATA[$F{nome_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="0" width="140" height="20" uuid="3a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<textFieldExpression><![CDATA[$F{nome_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="140" height="20" uuid="4a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<textFieldExpression><![CDATA[$F{data_emprestimo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="140" height="20" uuid="5a3a1f60-5934-40c1-aaf0-3bb7e6f59563"/>
+				<textFieldExpression><![CDATA[$F{data_vencimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="f3a6d2b4-3fda-4f24-b0f5-d6b9c9b776c1"/>
+				<text><![CDATA[Page Footer]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
